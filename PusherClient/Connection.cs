@@ -365,7 +365,14 @@ namespace PusherClient
         private void WebsocketConnectionError(object sender, SuperSocket.ClientEngine.ErrorEventArgs e)
         {
             _currentError = e.Exception;
-            _connectionSemaphore?.Release();
+            try
+            {
+                _connectionSemaphore?.Release();
+            }
+            catch (SemaphoreFullException)
+            {
+                // Ignore issues with releasing the semaphore
+            }
             WebsocketError(sender, e);
         }
 
