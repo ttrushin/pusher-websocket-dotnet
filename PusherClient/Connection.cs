@@ -521,7 +521,14 @@ namespace PusherClient
             _pusher.ErrorOccured(error);
             if (_connectionSemaphore != null)
             {
-                _connectionSemaphore.Release();
+                try
+                {
+                    _connectionSemaphore?.Release();
+                }
+                catch (SemaphoreFullException)
+                {
+                    // Ignore issues with releasing the semaphore
+                }
             }
         }
     }
