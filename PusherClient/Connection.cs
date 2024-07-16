@@ -373,6 +373,10 @@ namespace PusherClient
             {
                 // Ignore issues with releasing the semaphore
             }
+            catch (ObjectDisposedException)
+            {
+                // Ignore issues with releasing the semaphore
+            }
             WebsocketError(sender, e);
         }
 
@@ -526,6 +530,10 @@ namespace PusherClient
                     _connectionSemaphore?.Release();
                 }
                 catch (SemaphoreFullException)
+                {
+                    // Ignore issues with releasing the semaphore
+                }
+                catch (ObjectDisposedException)
                 {
                     // Ignore issues with releasing the semaphore
                 }
